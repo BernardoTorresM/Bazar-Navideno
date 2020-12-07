@@ -38,7 +38,7 @@ const limpiarForm = () => {
     DATOS
 =================== */ 
 let numTines = 0, numSueterHombre = 0, numSueterMujer = 0;
-let correo = "", nombre = "", codigo = "";
+let correo = "", nombre = "", codigo = "", diaPedido = 0;
 
 const guardarDatos = () => { 
     numTines = parseInt(inputTines.value);
@@ -48,6 +48,7 @@ const guardarDatos = () => {
     correo = form["input-correo"].value;
     nombre = form["input-nombre"].value;
     codigo = form["input-codigo"].value.toLowerCase();
+    diaPedido = parseInt(new Date(form["input-fecha"].value).getDay());
 }
 
 
@@ -55,7 +56,6 @@ const guardarDatos = () => {
     CALCULAR COSTOS
 =================== */ 
 let subtotal = 0, iva = 16, total = 0, descuento = 0, ivaTotal = 0;
-let fechaPedido = new Date();
 
 const porcentajeConDescuento = codigo => { 
     switch (codigo) {
@@ -91,6 +91,8 @@ const calcularPrecios = () => {
     calcTotal();
 }
 
+const calcDia = numDia => (numDia < 4) ? "este sábado" : "el próximo martes";
+
 let stockTines = 200, stockSueterHombre = 50, stockSueterMujer = 150;
 
 const actualizarStock = () => { 
@@ -110,13 +112,13 @@ const actualizarStock = () => {
     EDITAR MODAL
 =================== */ 
 const mostrarPrecios = () => { 
-    modalBody.innerHTML += 
+    modalBody.innerHTML = 
     `
     <p><strong>Sub-total:</strong> ${subtotal}</p>
     <p><strong>Descuento:</strong> ${descuento}</p>
     <p><strong>IVA: </strong> ${ivaTotal}</p>
     <p><strong>Total: </strong> ${total}</p>
-    <p><strong>Fecha de entrega:</strong> hoy</p>
+    <p><strong>Fecha de entrega:</strong> ${calcDia(diaPedido)}</p>
     `
 }
 
