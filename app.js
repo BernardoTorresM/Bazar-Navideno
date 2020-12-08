@@ -130,7 +130,17 @@ btnConfirmar.addEventListener('click', () => {
     actualizarStock();
     limpiarForm();
     alertSuccess.classList.toggle('hidden');
+    modalBody.innerHTML = "";
 });
+
+const faltaArticulo = (pedido, stock, articulo) => (pedido > stock) ? 
+    `<p class="stock-faltante">*Faltan ${pedido - stock} ${articulo}</p>` : " ";
+
+const mostrarFaltaStock = () => { 
+    modalBody.innerHTML += faltaArticulo(numTines, stockTines, "tines");
+    modalBody.innerHTML += faltaArticulo(numSueterHombre, stockSueterHombre, "suéters de hombre");
+    modalBody.innerHTML += faltaArticulo(numSueterMujer, stockSueterMujer, "suéters de mujer");
+}
 
 
 /* ===================
@@ -141,4 +151,5 @@ btnPedir.addEventListener('click', () => {
     calcularPrecios();
     mostrarNombre();
     mostrarPrecios();
+    mostrarFaltaStock();
 });
